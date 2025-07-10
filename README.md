@@ -30,3 +30,6 @@ Credits to the creators of Restsharp for making it super easy to deal with Restf
 
 Credits to the creators of JSON.net for their JSON serializer/deserializer. It made dealing with JSON very easy.
 
+
+# For those who see that I have left my API key in the source code
+Don't worry, I have changed it already.
