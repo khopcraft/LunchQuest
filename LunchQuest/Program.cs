@@ -1,11 +1,10 @@
 ﻿using LunchQuest;
 
+//Prepare our WebAPI handlers
 var lunch = new LunchMoneyHandler();
-
-
-var thing = lunch.PutAsset();
-
-
 QuestradeHandler quest =  new QuestradeHandler();
 
-quest.GetAssets();
+//Get Questrade accounts and convert them to assets
+List<Asset> assets = quest.GetAssets();
+//Create or update assets on LunchMoney
+var thing = lunch.PutAssets(assets);

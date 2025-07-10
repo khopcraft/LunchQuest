@@ -1,5 +1,8 @@
 using Newtonsoft.Json;
 using RestSharp;
+using System;
+using System.IO;
+using System.Text;
 
 namespace LunchQuest;
 
@@ -24,10 +27,19 @@ public class TokenHandler
 {
     //Put API token from apphub in Questrade here. This is only used if the questrade.token file 
     //has not been created yet
-    string refreshToken = "mF2IDuuXdj3j_k0-M4UajPgHc0zYvlje0";
-    
+    string refreshToken = "K90CTtOF2LVt3KTfgLiSo_8HD6SAPeF70";
+    string tokenPath = "./questrade.token";
     private async Task<RestResponse> GetAccessToken()
     {
+        //set refreshToken to stored refreshToken if questrade.token exists
+        if (File.Exists(tokenPath))
+        {
+            using (StreamReader sr = new StreamReader(tokenPath))
+            {
+                refreshToken = sr.ReadToEnd();
+            }
+        }
+        
         RestClient client = new RestClient("https://login.questrade.com/oauth2");
         RestRequest request = new RestRequest($@"/token?grant_type=refresh_token&refresh_token={refreshToken}");
         
@@ -45,7 +57,13 @@ public class TokenHandler
        response.Wait();
        
        token = JsonConvert.DeserializeObject<Token>(response.Result.Content);
-       Console.WriteLine(token.refresh_Token);//Not managing tokens properly yet. Must keep track of refresh token 
+       
+       
+       //Write refresh token to questrade.token file
+       using (StreamWriter sw = new StreamWriter(tokenPath))
+       {
+           sw.WriteLine(token.refresh_Token);
+       }
        return token;
     }
 }

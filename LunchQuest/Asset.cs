@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace LunchQuest;
 
@@ -10,9 +11,9 @@ public class Assets
 }
 public class Asset
 {
-    [JsonProperty("id")]
-    public int id { get; set; }
-    
+    [JsonProperty("id")] 
+    public int id { get; set; } = -1;
+        
     [JsonProperty("type_name")]
     public string type_name { get; set; }
     
@@ -45,24 +46,32 @@ public class Asset
     
     [JsonProperty("closed_on")]
     public string closed_on { get; set; }
-    
-    [JsonProperty("exclude_transactions")]
-    public bool exclude_transactions { get; set; }
 
-    public Asset(string typeName, string subtypeName, string name, string displayName,
-        string balance, string to_base, string balance_as_of, string currency, string institution_name,
-        string closed_on, bool excludeTransactions)
+    [JsonProperty("exclude_transactions")] 
+    public bool exclude_transactions { get; set; } = true;
+
+    public Asset(string typeName, string subtypeName, string name, string balance, 
+        string currency, string institution_name, bool excludeTransactions)
     {
         this.type_name = typeName;
         this.subtype_name = subtypeName;
         this.name = name;
-        this.display_name = displayName;
         this.balance = balance;
-        this.to_base = to_base;
-        this.balance_as_of = balance_as_of;
         this.currency = currency;
         this.institution_name = institution_name;
-        this.closed_on = closed_on;
         this.exclude_transactions = excludeTransactions;
+    }
+
+    //Returns a string ready for updating or creating new asset for lunchmoney
+    public String LunchReadyAsset()
+    {
+        string asset = " ";
+        JObject obj = JObject.FromObject(this);
+        obj.Remove("id");
+        obj.Remove("to_base");
+        obj.Remove("description");
+        Console.WriteLine(obj.ToString());
+        asset = obj.ToString();
+        return asset;
     }
 }
