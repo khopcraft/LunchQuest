@@ -6,5 +6,7 @@ QuestradeHandler quest =  new QuestradeHandler();
 
 //Get Questrade accounts and convert them to assets
 List<Asset> assets = quest.GetAssets();
+Console.WriteLine("Pulled assets from Questrade!");
 //Create or update assets on LunchMoney
 var thing = lunch.PutAssets(assets);
+Console.WriteLine("Put assets onto LunchMoney!");

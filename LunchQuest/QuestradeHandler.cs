@@ -66,7 +66,7 @@ public class QuestradeHandler
             }
             
             Asset asset = new Asset("investment", q.number, q.type, balance, 
-                q.currency, "Questrade", false);
+                q.currency, "Questrade", true);
             assets.Add(asset);
         }
         

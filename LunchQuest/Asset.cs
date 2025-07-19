@@ -70,7 +70,6 @@ public class Asset
         obj.Remove("id");
         obj.Remove("to_base");
         obj.Remove("description");
-        Console.WriteLine(obj.ToString());
         asset = obj.ToString();
         return asset;
     }

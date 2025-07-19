@@ -5,7 +5,7 @@ using RestSharp.Authenticators.OAuth2;
 
 public class LunchMoneyHandler
 {
-    private string token = "dbef811497a2911f4225eed040858d4d0c2090e0bb281c6341";
+    private string token = "156bbf6fe7a63ce5dcd3839e5eff673e8c99ae955c1b4e1a6c";
     private RestClientOptions options;
     private RestClient client;
     public LunchMoneyHandler()
@@ -28,7 +28,6 @@ public class LunchMoneyHandler
 
     private async Task<RestResponse> UpdateAsset(Asset asset)
     {
-        Console.WriteLine("Updating asset");
         RestRequest request = new RestRequest($@"assets/{asset.id}", Method.Put);
         request.AddJsonBody(asset.LunchReadyAsset());
         
@@ -41,7 +40,6 @@ public class LunchMoneyHandler
     private async Task<RestResponse> InsertAsset(Asset asset)
     {
         RestRequest request = new RestRequest($@"assets", Method.Post);
-        //Console.WriteLine(asset.LunchReadyAsset());
         request.AddBody(asset.LunchReadyAsset());
         
         var response = await client.ExecutePostAsync(request);
@@ -59,8 +57,9 @@ public class LunchMoneyHandler
         response.Wait();
 
         var result = response.Result.Content;
-        Console.WriteLine(result);
         
+        
+        //Lunchmoney assets
         Assets lAssets = JsonConvert.DeserializeObject<Assets>(result);
         
         //Iterate through all assets and find match based on type_name and subtype_name (which we set as account #)
